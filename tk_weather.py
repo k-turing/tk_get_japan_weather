@@ -3,6 +3,7 @@ import tkinter as tk
 
 api_url = "http://weather.livedoor.com/forecast/webservice/json/v1"
 base = tk.Tk()
+base.title("Japan Weather") #title
 w = 10 #width of cell and col
 
 def push1():
@@ -334,8 +335,11 @@ def push47():
         print(i["dateLabel"] + "の天気は、" + i["telop"])
     print("\n")    
 
-#variable
+#exit application
+def exit():
+    base.destroy()    
 
+#prefecture variable
 button1 = tk.Button(base, text = "Hokkaido", command = push1, width = w).grid(row = 0, column = 0)    
 button2 = tk.Button(base, text = "Aomori", command = push2, width = w).grid(row = 1, column = 0)
 button3 = tk.Button(base, text = "Iwate", command = push3, width = w).grid(row = 1, column = 1)
@@ -383,5 +387,12 @@ button44 = tk.Button(base, text = "Oita", command = push44, width = w).grid(row 
 button45 = tk.Button(base, text = "Miyazaki", command = push45, width = w).grid(row = 7, column = 5)
 button46 = tk.Button(base, text = "Kagoshima", command = push46, width = w).grid(row = 7, column = 6)
 button47 = tk.Button(base, text = "Okinawa", command = push47, width = w).grid(row = 8, column = 0)
+
+#menu_bar
+menu_bar = tk.Menu(base)
+file_menu = tk.Menu(menu_bar)
+menu_bar.add_cascade(label = "File", menu = file_menu)
+file_menu.add_command(label = "Exit", command = exit)
+base.config(menu = menu_bar)
 
 base.mainloop()                                      
