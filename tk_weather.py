@@ -1,16 +1,16 @@
+# Thanks for Bartłomiej Burek, Andrea Enzo Lattmann and Python Programing language
+
 import requests
 import tkinter as tk
-
+ 
 api_url = "http://weather.livedoor.com/forecast/webservice/json/v1"
 base = tk.Tk()
 base.title("Japan Weather") #title
 w = 10 #width of cell and col
-
-###### fixing ######
-
+ 
 #list of the prefecture
-
-data = [ # name, city_code, column, row
+ 
+data = [ # name, city_code, row, column
     ("Hokkaido", "016010", 0, 0),
     ("Aomori", "020010", 1, 0),
     ("Iwate", "030010", 1, 1),
@@ -59,33 +59,32 @@ data = [ # name, city_code, column, row
     ("Kagoshima", "460010", 7, 6),
     ("Okinawa", "471010", 8, 0),
 ]
-
-# display button
-
-def push(city):
-    for name, city, c, r in data:
-        b = tk.Button(base, text = name, command = (lambda x = city:push(x)))
-        b.grid(column = c, row = r)
-
+ 
 # function of button / display each weather
-
-def display(data): #use command line 67 to output data, but I use lambda, so how should I do?
-    weather_data = requests.get(api_url, params = {data[0] : data[1]}).json() #get city name
-    print(data[0])
+ 
+def push(city_code):
+    weather_data = requests.get(api_url, params={'city': city}).json() #get city name
     for i in weather_data["forecasts"]:
         print(i["dateLabel"] + "の天気は、" + i["telop"])
     print("\n")    
-
+ 
 # commnd exit application
-
+ 
 def exit():
     base.destroy()    
-
+ 
 # display menu_bar
+
 menu_bar = tk.Menu(base)
 file_menu = tk.Menu(menu_bar)
 menu_bar.add_cascade(label = "File", menu = file_menu)
 file_menu.add_command(label = "Exit", command = exit)
 base.config(menu = menu_bar)
-
-base.mainloop()                                      
+ 
+# display button
+ 
+for name, city, r, c in data:
+    b = tk.Button(base, text = name, command = (lambda x = city:push(x)))
+    b.grid(row = r, column = c, sticky ='we')
+ 
+base.mainloop()
